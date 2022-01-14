@@ -7,39 +7,24 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static org.hibernate.cfg.AvailableSettings.DRIVER;
+
 public class Util {
-    private String URL="jdbc:mysql://localhost:3306/mydbtest";
-    private String Username="root";
-    private String PASSWORD="Champion567";
-    Connection connection;
-    Driver driver;
+    private static String URL="jdbc:mysql://localhost:3306/mydbtest";
+    private static String Username="root";
+    private static String PASSWORD="Champion567";
 
-    {
-        try {
-            driver = new FabricMySQLDriver();
-        } catch (SQLException e) {
-            System.out.println("ошибка подключения");
 
-        }
+
+    public static Connection getConnection() {
+        Connection connection = null;
         try {
-            DriverManager.registerDriver(driver);
-        } catch (SQLException e) {
-            System.out.println("ошибка регистрации драйвера");;
-        }
-        try {
-            connection=DriverManager.getConnection(URL,Username,PASSWORD);
-        } catch (SQLException e) {
+            Class.forName(DRIVER);
+            connection = DriverManager.getConnection(URL,Username,PASSWORD);
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        return connection;
     }
 
 }
