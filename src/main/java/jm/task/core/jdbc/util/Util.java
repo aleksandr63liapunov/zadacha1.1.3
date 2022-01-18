@@ -2,17 +2,62 @@ package jm.task.core.jdbc.util;
 
 
 
+import jm.task.core.jdbc.model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import static org.hibernate.cfg.AvailableSettings.DRIVER;
 
 public class Util {
-    private static String URL="jdbc:mysql://localhost:3306/mydbtest";
-    private static String USERNAME="root";
-    private static String PASSWORD="Champion567";
+    private static final String URL="jdbc:mysql://localhost:3306/mydbtest?useSSL=false";
+    private static final String USERNAME="root";
+    private static final String PASSWORD="Champion567";
+
+    private static  SessionFactory sessionFactory;
+    public static SessionFactory getSessionFactory() {
+
+            try {
+                Configuration configuration = new Configuration().configure();
+                Properties settings = new Properties();
+                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/mydbtest?useSSL=false");
+                settings.put(Environment.USER, "root");
+                settings.put(Environment.PASS, "Champion567");
+                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+
+                settings.put(Environment.SHOW_SQL, "true");
+
+                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+
+                settings.put(Environment.HBM2DDL_AUTO, "update");
+
+                configuration.setProperties(settings);
+
+                configuration.addAnnotatedClass(User.class);
+
+                StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+                sessionFactory = configuration.buildSessionFactory(builder.build());
+                System.out.println("подключенно");
+            } catch (Exception e) {
+                System.out.println("Исключение!" + e);
+            }
+
+        return sessionFactory;
+    }
+
+
+
+
+
+
     public static Connection getConnetion() {
         Connection connection = null;
         try {

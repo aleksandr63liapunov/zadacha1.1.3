@@ -45,8 +45,15 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.10.Final</version>
+            <version>5.2.18.Final</version>
         </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.hibernate/hibernate-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>6.0.0.Beta3</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
      </dependencies>
 
 </project>
